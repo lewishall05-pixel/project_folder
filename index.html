@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intensive vs. Extensive Violence in South America</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Mulish:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --navy:   #1a2744;
+            --accent: #c8392b;
+            --light:  #f4f4f2;
+            --text:   #1a1a1a;
+            --muted:  #666;
+        }
+
+        body {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 0 6rem;
+            font-family: 'Mulish', sans-serif;
+            font-weight: 300;
+            font-size: 1rem;
+            line-height: 1.85;
+            color: var(--text);
+            background: #fff;
+        }
+
+        /* ── Header ── */
+        .report-header {
+            background: var(--navy);
+            padding: 3rem 2.5rem 2.5rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .report-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 4px;
+            background: var(--accent);
+        }
+
+        .report-header .course-tag {
+            font-size: 0.7rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 1.25rem;
+            font-family: 'Mulish', sans-serif;
+        }
+
+        .report-header h1 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            line-height: 1.25;
+            color: #fff;
+            margin-bottom: 2rem;
+            max-width: 720px;
+        }
+
+        .header-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .byline {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0.05em;
+            line-height: 1.7;
+        }
+
+        .byline strong {
+            display: block;
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* ── Content wrapper ── */
+        .content {
+            padding: 0 2.5rem;
+        }
+
+        /* ── Section headings ── */
+        h2 {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 3.5rem;
+            margin-bottom: 0.9rem;
+            color: var(--navy);
+        }
+
+        h2 span {
+            color: var(--accent);
+            margin-right: 0.4rem;
+        }
+
+        /* ── Body text ── */
+        p { margin: 1rem 0; }
+
+        /* ── Inline citations ── */
+        sup a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            vertical-align: super;
+            line-height: 0;
+            margin-left: 1px;
+        }
+
+        sup a:hover { text-decoration: underline; }
+
+        /* ── Figures ── */
+        figure { margin: 2rem 0 0; }
+
+        figure img {
+            width: 100%;
+            display: block;
+            border: 1px solid #e0e0e0;
+        }
+
+        figcaption {
+            font-size: 0.78rem;
+            color: var(--muted);
+            font-style: italic;
+            padding: 0.5rem;
+            background: var(--light);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        /* ── Interactive chart wrapper ── */
+        .chart-wrap {
+            margin: 2rem 0 0;
+            border: 1px solid #e0e0e0;
+            background: #fff;
+        }
+
+        .chart-wrap + figcaption {
+            font-size: 0.78rem;
+            color: var(--muted);
+            font-style: italic;
+            padding: 0.5rem;
+            background: var(--light);
+            margin-bottom: 1rem;
+        }
+
+        /* ── Finding boxes ── */
+        .finding {
+            background: var(--light);
+            border-left: 4px solid var(--navy);
+            padding: 1.1rem 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .finding strong {
+            display: block;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-weight: 600;
+            font-family: 'Mulish', sans-serif;
+            margin-bottom: 0.4rem;
+        }
+
+        /* ── Divider ── */
+        hr {
+            border: none;
+            border-top: 1px solid #e0e0e0;
+            margin: 4rem 0 2.5rem;
+        }
+
+        /* ── Footnotes ── */
+        .footnotes {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .footnotes h2 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--navy);
+            margin-bottom: 1rem;
+            border: none;
+            margin-top: 0;
+            font-family: 'Mulish', sans-serif;
+        }
+
+        .footnotes ol {
+            padding-left: 1.25rem;
+            margin: 0;
+        }
+
+        .footnotes ol li {
+            font-size: 0.82rem;
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+            padding-left: 0.25rem;
+        }
+
+        .footnotes ol li a.backlink {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.75rem;
+            margin-left: 4px;
+        }
+
+        .footnotes ol li a.backlink:hover { text-decoration: underline; }
+
+        /* ── Responsive ── */
+        @media (max-width: 600px) {
+            .report-header { padding: 2rem 1.2rem; }
+            .report-header h1 { font-size: 1.5rem; }
+            .content { padding: 0 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+
+<!-- ══ HEADER ══════════════════════════════════════════════════════════════ -->
+<header class="report-header">
+    <p class="course-tag">POLI3148</p>
+    <h1>Intensive vs. Extensive: Trends of Lethal Violence by the State and
+    Others in South America, 2018&ndash;2024</h1>
+    <div class="header-footer">
+        <div class="byline">
+            <strong>Lewis Sydney Campbell Hall</strong>
+            Assignment 1 &nbsp;&mdash;&nbsp; April 2026
+        </div>
+    </div>
+</header>
+
+
+<div class="content">
+
+
+<figure>
+    <img src="el_salvador.jpg"
+         alt="Mara Salvatrucha gang initiation in San Salvador, El Salvador">
+    <figcaption>
+        Initiation of a 15-year-old into the Mara Salvatrucha gang in San
+        Salvador, El Salvador (De Cesare, 2016)
+    </figcaption>
+</figure>
+
+
+<!-- ══ INTRODUCTION ════════════════════════════════════════════════════════ -->
+<h2><span>I.</span> Introduction</h2>
+
+<p>
+    South America is consistently among the most politically violent regions in
+    the world<sup><a href="#fn1" id="ref1">1</a></sup>. State actors are more
+    than three times more likely to kill in any given violent event than non-state
+    counterparts, yet non-states produce greater volume of violence overall.
+    This asymmetry of violence, recorded across 209,317 ACLED datapoints
+    spanning 2018-2024, highlights fundamental distinctions in the character of
+    South American violence; who 'causes' the violence characterises how
+    violence plays out.
+</p>
+
+<p>
+    State and state-affiliated forces enact violence with intensity. State-based
+    violent events are more likely to end in fatality than not, with armed
+    clashes and organised military operations/responses producing proportionally
+    high death tolls for the number of events involved in. Non-state groups,
+    namely gangs, organised crime and independent militia, comparatively enact
+    violence with extensivity; a far higher volume of recorded violence is
+    non-state based, but fatalities number fewer than one in five, with
+    targeted attacks preceding state-style large confrontations.
+</p>
+
+<p>
+    The intensive-extensive dynamic holds across the region, albeit not
+    uniformly - Venezuela exhibits particularly high intensity, with a ratio
+    of state to non-state lethality far higher than others consistent with
+    intense government repression. Ecuador presents an anomaly, inverting the
+    regional pattern as gang warfare and prison violence makes it the only
+    nation where non-state lethality exceeds state lethality. Brazil, the
+    continents largest contributor of violence by volume, holds near-parity
+    between actor lethality (<em>see Figure 7</em>).
+</p>
+
+<p>
+    The following analysis examines how these and other nations in the region
+    produce the intensive-extensive distinction, doing so in spatial, temporal
+    and then mechanical analysis of violence, of the cause of violence, between
+    2018 and 2024.
+</p>
+
+
+<!-- ══ DATA AND METHODOLOGY ════════════════════════════════════════════════ -->
+<h2><span>II.</span> Data and Methodology</h2>
+
+<p>
+    Data is sourced from the Armed Conflict Location and Event Data Project
+    (ACLED), a record of disaggregated political violence and protest events
+    worldwide, coding dates, locations, actor types, event categories, and
+    fatalities for each incident<sup><a href="#fn2" id="ref2">2</a></sup>. The
+    data harvested covers South America from 1st January 2018 (the beginning
+    of data backdating<sup><a href="#fn3" id="ref3">3</a></sup>) to April 2025,
+    although 2025 events had to be removed given an incomplete yearly dataset.
+    After the exclusion of 2025 and filtering out of state nor non-state actors,
+    209,317 datapoints (events) remained for analysis.
+</p>
+
+<p>
+    Events were tagged as state or non-state-based events through keyword
+    matching against ACLED actor name fields, producing binary flags (allowing
+    events involving both actors to hold both tags). State actors include those
+    tagged government, state, military or police; non-state actors include those
+    tagged rebel, militia, criminal organisation, gang, rioter, protestor and/or
+    civilian. Fatality figures are compiled from publicly available sources such
+    as newspapers, so whilst wide-reaching, must be understood as lower bounds
+    that may not possess the full picture for rural areas in particular
+    <sup><a href="#fn4" id="ref4">4</a></sup>.
+</p>
+
+<p>
+    The primary comparative metric utilised is the lethality ratio, produced
+    through dividing mean state-based fatalities per event by mean non-state-based
+    fatalities per event in a given period/nation. Given right-skewed distribution
+    of per-event fatality - i.e. the top 1% of events accounting for 13% of total
+    fatalities - median figures are reported throughout, and robustness checks
+    excluding the top 1% were carried out for (and confirmed) each key finding
+    <sup><a href="#fn5" id="ref5">5</a></sup>.
+</p>
+
+<figure>
+    <img src="fig_fatality_distribution.png"
+         alt="Fatality distribution across all events showing heavy right skew">
+    <figcaption>
+        Figure 1. Fatality distribution across all 209,317 events (left:
+        0&ndash;10 fatalities, covering ~95% of events; right: log scale for
+        events with &ge;1 death). The heavily right-skewed distribution
+        justifies use of median over mean in subsequent comparative
+        analysis and motivates robustness checks run throughout
+        (<em>see Section IV</em>).
+    </figcaption>
+</figure>
+
+<figure>
+    <img src="fig_distribution_by_actor.png"
+         alt="Side by side fatality distributions for state and non-state actors on log scale">
+    <figcaption>
+        Figure 2. Fatality distribution by actor type (log scale, events with
+        &ge;1 fatality). The state actor distribution shows a comparably less
+        steep drop-off in the 10&ndash;30 fatality range, with extreme events
+        (&gt;30 fatalities) exclusively involving state actors &mdash; a first
+        visual indication of the intensive/extensive asymmetry examined in the
+        findings below.
+    </figcaption>
+</figure>
+
+
+<!-- ══ FINDINGS I: OVERALL TRENDS ══════════════════════════════════════════ -->
+<h2><span>III.</span> Overall Trends in Political Violence</h2>
+
+<p>
+    Political violence across South America has remained consistent in
+    volume between 2018 and 2024, with approx. 25,000-32,000 events recorded
+    annually most years<sup><a href="#fn6" id="ref6">6</a></sup>. Fatalities,
+    however, have not - total deaths fluctuate significantly year-on-year,
+    rising sharply through 2022 and 2023 before falling back in a pattern
+    inconsistent with total event count. A year with more recorded political
+    violence is not necessarily a deadlier one, with activity and lethality
+    evidently not correlated with one another, but more so correlated with which
+    actor is more active in a given nation.
+</p>
+
+<p>
+    Disaggregation by actor type sharpens this picture - non-state armed groups
+    consistently generate the majority of recorded events, and outpace state actors
+    in volume in every year from 2018 to 2024 (<em>see Figure 4</em>). Yet across
+    most of the same period, state actor events produce comparable (/higher) total
+    fatality counts despite a lower number of incidents. In 2021, state actors were
+    responsible for more recorded deaths than non-state actors, despite
+    accounting for fewer than 30% of all events that year in clear demonstration
+    of the intensive/extensive asymmetry in the dataset.
+</p>
+
+<p>
+    The pattern is not solely an artefact of a small number of catastrophic
+    state-linked events inflating totals. As distributional analysis in the
+    methodology section establishes, extreme outlier events do skew toward state
+    actors, but the lethality gap still persists after their exclusion. The
+    split between state and non-state fatality lines reflects genuine structural
+    difference in how each actor type approaches violence; one with measured but
+    intense force, and the other less calculatedly.
+</p>
+
+<figure>
+    <img src="fig_events_fatalities_year.png"
+         alt="Annual event volume versus total fatalities 2018 to 2024">
+    <figcaption>
+        Figure 3. Annual event volume (bars, left axis) and total fatalities
+        (line, right axis), South America 2018&ndash;2024. Event counts remain
+        relatively stable while fatalities show pronounced year-on-year
+        variation, confirming that volume is not a reliable proxy for lethality.
+    </figcaption>
+</figure>
+
+<p>
+    Disaggregating by actor type reveals mechanism underpinning difference;
+    non-state armed groups consistently outnumber state groups in tagged events
+    in every year in the dataset, yet state actors largely match or exceed them
+    in total fatalities most years. Compression of lethality into a smaller
+    number of higher-violence events signposts intensive/extensive asymmetry, with
+    the chart below plotting this gap between fatalities relative to the gap
+    between event volume side by side.
+</p>
+
+<div class="chart-wrap">
+    <div>                            <div id="baedb514-5f86-43c9-8c10-ae404c2efca2" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("baedb514-5f86-43c9-8c10-ae404c2efca2")) {                    Plotly.newPlot(                        "baedb514-5f86-43c9-8c10-ae404c2efca2",                        [{"legendgroup":"State","line":{"color":"mediumblue","dash":"solid","width":2},"marker":{"size":7},"mode":"lines+markers","name":"State","x":[2018,2019,2020,2021,2022,2023,2024],"y":[8907,8515,8247,7805,8266,8560,8084],"type":"scatter","xaxis":"x","yaxis":"y"},{"legendgroup":"State","line":{"color":"mediumblue","dash":"solid","width":2},"marker":{"size":7},"mode":"lines+markers","name":"State","showlegend":false,"x":[2018,2019,2020,2021,2022,2023,2024],"y":[7600,6398,6200,5859,6241,6546,5963],"type":"scatter","xaxis":"x2","yaxis":"y2"},{"legendgroup":"Non-state","line":{"color":"crimson","dash":"dash","width":2},"marker":{"size":7},"mode":"lines+markers","name":"Non-state","x":[2018,2019,2020,2021,2022,2023,2024],"y":[21214,19791,20294,24248,27878,27101,21487],"type":"scatter","xaxis":"x","yaxis":"y"},{"legendgroup":"Non-state","line":{"color":"crimson","dash":"dash","width":2},"marker":{"size":7},"mode":"lines+markers","name":"Non-state","showlegend":false,"x":[2018,2019,2020,2021,2022,2023,2024],"y":[6213,5369,5374,5613,7716,8604,7857],"type":"scatter","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.45],"tickmode":"linear"},"yaxis":{"anchor":"x","domain":[0.0,1.0]},"xaxis2":{"anchor":"y2","domain":[0.55,1.0],"tickmode":"linear"},"yaxis2":{"anchor":"x2","domain":[0.0,1.0]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Event volume by actor type","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Fatalities by actor type","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"legend":{"orientation":"h","y":1.1},"title":{"text":"State vs. non-state actor activity — South America"},"hovermode":"x unified"},                        {"responsive": true}                    )                };                            </script>        </div>
+</div>
+<figcaption>
+    Figure 4. Event volume (left) and total fatalities (right) by actor type,
+    2018&ndash;2024 (interactive &mdash; hover for values). State actor events
+    are consistently fewer in number yet produce comparable or higher fatality
+    totals across most years.
+</figcaption>
+
+
+<!-- ══ FINDINGS II: THE LETHALITY GAP ══════════════════════════════════════ -->
+<h2><span>IV.</span> The Intensive/Extensive Lethality Gap</h2>
+
+<p>
+    The difference between state and non-state actors is one of character more
+    so than scale. State-based events result in lethality 55.2% of the time;
+    more than three times the 17.2% lethality rate of non-state actors. The
+    large majority of non-state violence does not kill - a finding unchanged by
+    removing extreme events for robustness checks, where lethality ratio between
+    the two actor types shifts by just 0.14 after excluding the top 1% of events
+    by fatality count<sup><a href="#fn7" id="ref7">7</a></sup>. The scale of the
+    gap illustrates a systemic difference in the manner each actor operates.
+</p>
+
+<p>
+    Returning to median fatality count captures this divide most clearly. For
+    state actors, the median event will kill one person, whilst the median across
+    all events (lethal & non-lethal) for non-state actors is zero deaths.
+    lethality ratio, expressing state-based mean fatalities per event as a
+    multiple of the non-state-based equivalent, when calculated stays above 1.0
+    every year of the dataset, with no exception (<em>see Figure 5</em>). That is,
+    state actors are always more lethal than non-state actors - they are lethal
+    to the degree of consistency that the gap must be structural.
+</p>
+
+<p>
+    The right-skewed distributional profile of state actors (greater volume of
+    events with greater lethality) established requires a Mann-Whitney U Test to
+    establish statistical significance beyond chance<sup><a href="#fn8" id="ref8">8</a></sup>.
+    Carried out on both the full and robust dataset, the output of a p-value of
+    0.00 confirms the lethality difference is beyond chance. The null hypothesis
+    for the statement'state and non-state fatality distributions are equal' being
+    rejected confirms the systematic difference, the extensivity, of non-state
+    violence from state.
+</p>
+
+
+<div class="finding">
+    <strong>Key finding</strong>
+    State actor events are more than three times as likely to result in at
+    least one fatality compared to non-state actor events (55.2% vs. 17.2%).
+    The state median fatalities per event (1.0) exceeds non-state (0.0),
+    confirming the gap is not driven by outliers. This difference is
+    statistically significant (Mann-Whitney U, p &lt; 0.05) and holds after
+    excluding the top 1% of events by fatality count.
+</div>
+
+<div class="chart-wrap">
+    <div>                            <div id="93ff43db-8b1e-4ebe-9af6-f023097dd4f6" class="plotly-graph-div" style="height:100%; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("93ff43db-8b1e-4ebe-9af6-f023097dd4f6")) {                    Plotly.newPlot(                        "93ff43db-8b1e-4ebe-9af6-f023097dd4f6",                        [{"line":{"color":"mediumblue","width":2},"marker":{"size":7},"mode":"lines+markers","name":"State","x":[2018,2019,2020,2021,2022,2023,2024],"y":[0.8532614797350399,0.7513799177921315,0.7517885291621196,0.7506726457399103,0.7550205661746915,0.7647196261682243,0.737629886194953],"type":"scatter","xaxis":"x","yaxis":"y"},{"line":{"color":"crimson","dash":"dash","width":2},"marker":{"size":7},"mode":"lines+markers","name":"Non-state","x":[2018,2019,2020,2021,2022,2023,2024],"y":[0.29287263128122937,0.2712849274922945,0.26480733221641867,0.23148300890795118,0.2767773871870292,0.317479059813291,0.3656629589984642],"type":"scatter","xaxis":"x","yaxis":"y"},{"line":{"color":"darkred","width":2},"marker":{"size":7},"mode":"lines+markers","name":"Lethality ratio","showlegend":true,"x":[2018,2019,2020,2021,2022,2023,2024],"y":[2.9134217014484367,2.769707571805564,2.83900193725643,3.2428844314807312,2.7278983079079895,2.4087246151540036,2.017239832591441],"type":"scatter","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.45],"tickmode":"linear"},"yaxis":{"anchor":"x","domain":[0.0,1.0]},"xaxis2":{"anchor":"y2","domain":[0.55,1.0],"tickmode":"linear"},"yaxis2":{"anchor":"x2","domain":[0.0,1.0]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Mean fatalities per event by actor type","x":0.225,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"State\u002fnon-state lethality ratio","x":0.775,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"showarrow":false,"text":"Parity","x":1,"xanchor":"right","xref":"x2 domain","y":1,"yanchor":"bottom","yref":"y2"}],"shapes":[{"line":{"color":"grey","dash":"dash"},"type":"line","x0":0,"x1":1,"xref":"x2 domain","y0":1,"y1":1,"yref":"y2"}],"legend":{"orientation":"h","y":1.1},"title":{"text":"State vs. non-state lethality — South America (2018–2024)"},"hovermode":"x unified"},                        {"responsive": true}                    )                };                            </script>        </div>
+</div>
+<figcaption>
+    Figure 5. Mean fatalities per event by actor type (left) and
+    state/non-state lethality ratio over time (right) (interactive &mdash;
+    hover for values). A ratio above 1.0 in every year from 2018 to 2024
+    confirms that state actors are more intensively lethal throughout the
+    entire observed period. The parity line at 1.0 is shown for reference.
+</figcaption>
+
+
+<!-- ══ FINDINGS III: TEMPORAL VARIATION ════════════════════════════════════ -->
+<h2><span>V.</span> Temporal Variation in the Lethality Gap</h2>
+
+<p>
+    Whilst the lethality gap is consistent across time, that is not to say its
+    magnitude is static. The gap peaks - i.e. state violence peaks - in 2021 and
+    2022, before declining across 2023 and 2024; a significant difference to the
+    raw fatality trends, peaking in 2023 numerically. It is therefore important to
+    distinguish that years of high overall violence do not necessarily directly
+    correspond to high state lethality, which is more so depedendent on state-by-state
+    violence aligning compared to generally high non-state violence.
+</p>
+
+<p>
+    Decomposing the 2021 and 2022 ratio spikes by country and event identifies
+    the nations driving state violence peaks<sup><a href="#fn9" id="ref9">9</a></sup>.
+    Intensification is disproportionately concentrated in Guyana and Suriname,
+    with state lethality rising sharply compared to minimal non-state lethality
+    baselines - a limited number of high-lethality state operations in smaller
+    nations drives the spike, rather than broad regional shift. Paraguay and
+    Argentina by contrast show elevated lethality ratios in baseline and spike
+    periods alike, pointing to structural state intensity rather than the
+    episodic shifts of the former.
+</p>
+
+<p>
+    Breaking spike years down mechanically (into event type) reinforces this
+    reading, with battles the most lethal category per event, and with battles
+    (armed conflict) exclusively state-based during spike years. Violence against
+    civilians accounts for around 3/4 of non-state-based fatalities in the same
+    period, whilst protests record none. As such, spikes of state intensity are
+    a story of organised armed operations rather than heightened repression of
+    civilians/protest movements; violence and lethality is not always representative
+    of repression.
+</p>
+
+
+<figure>
+    <img src="fig_spike_decomposition_lethality_ratio.png"
+         alt="Lethality ratio by country baseline vs spike years and event type breakdown">
+    <figcaption>
+        Figure 6. Average lethality ratio by country during baseline
+        (2018, 2020, 2022) versus spike years (2021&ndash;2022) (left), and
+        fatality breakdown by event type and actor during the spike period
+        (right). The 2021&ndash;2022 intensification is disproportionately
+        driven by Guyana and Suriname; battles are exclusively state-driven
+        while violence against civilians is predominantly non-state.
+    </figcaption>
+</figure>
+
+
+<!-- ══ FINDINGS IV: SPATIAL VARIATION ══════════════════════════════════════ -->
+<h2><span>VI.</span> Spatial Variation Across South America</h2>
+
+<p>
+    The intensive/extensive pattern holds across the continent, but with
+    meaningful country-level variation that complicates any proper regional
+    generalisation. Venezuela records the highest state lethality ratio in the
+    dataset (state actors far more lethal per event than non-state), consistent
+    with documenteds pattern of organised repression by Maduro-led state security
+    forces<sup><a href="#fn10" id="ref10">10</a></sup>. Colombia and Peru follow
+    similar directional patterns, reflecting continued activity of military forces
+    against armed groups where state operations are larger-scale and more lethally
+    armed, so are consequently more lethal than non-state counterparts.
+</p>
+
+<p>
+    Ecuador is an outright exception to the continental dynamic, with non-state
+    fatalities per event far exceeding state fatalities per event per esclating
+    gang warfare and prison violence<sup><a href="#fn11" id="ref11">11</a></sup>.
+    The nation's rapid deterioration into among the most violent in the region is
+    visible in the heatmap as a structural departure from the general intensive/extensive
+    dynamic elsewhere (<em>see Figure 7</em>). Brazil approaches near-parity
+    between actor types, reflecting a context of criminal organisations operating
+    at a scale of armament/organisational complexity comparable to state forces,
+    and therefore broadly equal in lethality.
+</p>
+
+<p>
+    Suriname, Guyana, and French Guiana show elevated or anomalous ratios in
+    some periods, but do carry significantly lower event counts than larger
+    regional powers. Lethality ratios for these countries are more sensitive to
+    individual incidents and ought to be interpreted with proportionally greater
+    caution than figures for Brazil, Colombia, or Venezuela.
+</p>
+
+<div class="chart-wrap">
+    <div>                            <div id="fdbab5d8-e83a-4a6d-beae-e8caa7bd5e83" class="plotly-graph-div" style="height:500px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("fdbab5d8-e83a-4a6d-beae-e8caa7bd5e83")) {                    Plotly.newPlot(                        "fdbab5d8-e83a-4a6d-beae-e8caa7bd5e83",                        [{"colorbar":{"len":0.9,"title":{"text":"Mean fatalities"},"x":0.62},"colorscale":[[0.0,"rgb(255,255,204)"],[0.125,"rgb(255,237,160)"],[0.25,"rgb(254,217,118)"],[0.375,"rgb(254,178,76)"],[0.5,"rgb(253,141,60)"],[0.625,"rgb(252,78,42)"],[0.75,"rgb(227,26,28)"],[0.875,"rgb(189,0,38)"],[1.0,"rgb(128,0,38)"]],"hovertemplate":"%{y} — %{x}\u003cbr\u003eMean: %{z:.3f}\u003cextra\u003e\u003c\u002fextra\u003e","showscale":true,"text":[["0.294\u003cbr\u003e(39,437 events)","0.824\u003cbr\u003e(39,647 events)"],["0.188\u003cbr\u003e(19,150 events)","1.325\u003cbr\u003e(6,802 events)"],["0.457\u003cbr\u003e(20,056 events)","0.450\u003cbr\u003e(5,485 events)"],["0.636\u003cbr\u003e(8,769 events)","0.236\u003cbr\u003e(1,225 events)"],["0.017\u003cbr\u003e(9,937 events)","0.141\u003cbr\u003e(885 events)"],["0.012\u003cbr\u003e(11,118 events)","0.022\u003cbr\u003e(2,910 events)"],["0.013\u003cbr\u003e(5,595 events)","0.198\u003cbr\u003e(257 events)"],["0.004\u003cbr\u003e(15,477 events)","0.087\u003cbr\u003e(611 events)"],["0.010\u003cbr\u003e(6,466 events)","0.121\u003cbr\u003e(414 events)"],["0.010\u003cbr\u003e(486 events)","0.127\u003cbr\u003e(63 events)"],["0.021\u003cbr\u003e(235 events)","0.194\u003cbr\u003e(36 events)"],["0.008\u003cbr\u003e(473 events)","0.111\u003cbr\u003e(27 events)"],["0.000\u003cbr\u003e(224 events)","0.136\u003cbr\u003e(22 events)"]],"texttemplate":"%{text}","x":["Non-state","State"],"y":["Brazil","Venezuela","Colombia","Ecuador","Peru","Chile","Paraguay","Argentina","Bolivia","Guyana","Suriname","Uruguay","French Guiana"],"z":[[0.294,0.824],[0.188,1.325],[0.457,0.45],[0.636,0.236],[0.017,0.141],[0.012,0.022],[0.013,0.198],[0.004,0.087],[0.01,0.121],[0.01,0.127],[0.021,0.194],[0.008,0.111],[0.0,0.136]],"type":"heatmap","xaxis":"x","yaxis":"y"},{"colorbar":{"len":0.9,"title":{"text":"Ratio"},"x":1.0},"colorscale":[[0.0,"rgb(255,255,204)"],[0.125,"rgb(255,237,160)"],[0.25,"rgb(254,217,118)"],[0.375,"rgb(254,178,76)"],[0.5,"rgb(253,141,60)"],[0.625,"rgb(252,78,42)"],[0.75,"rgb(227,26,28)"],[0.875,"rgb(189,0,38)"],[1.0,"rgb(128,0,38)"]],"hovertemplate":"%{y}\u003cbr\u003eRatio: %{z:.3f}\u003cextra\u003e\u003c\u002fextra\u003e","showscale":true,"text":[["2.803\u003cbr\u003e(79,084 events)"],["7.034\u003cbr\u003e(25,952 events)"],["0.984\u003cbr\u003e(25,541 events)"],["0.371\u003cbr\u003e(9,994 events)"],["8.558\u003cbr\u003e(10,822 events)"],["1.825\u003cbr\u003e(14,028 events)"],["15.861\u003cbr\u003e(5,852 events)"],["20.038\u003cbr\u003e(16,088 events)"],["11.832\u003cbr\u003e(6,880 events)"],["12.343\u003cbr\u003e(549 events)"],["9.139\u003cbr\u003e(271 events)"],["13.139\u003cbr\u003e(500 events)"],["0.000\u003cbr\u003e(246 events)"]],"texttemplate":"%{text}","x":["Lethality Ratio"],"y":["Brazil","Venezuela","Colombia","Ecuador","Peru","Chile","Paraguay","Argentina","Bolivia","Guyana","Suriname","Uruguay","French Guiana"],"z":[[2.803],[7.034],[0.984],[0.371],[8.558],[1.825],[15.861],[20.038],[11.832],[12.343],[9.139],[13.139],[0.0]],"type":"heatmap","xaxis":"x2","yaxis":"y2"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.5850000000000001]},"yaxis":{"anchor":"x","domain":[0.0,1.0]},"xaxis2":{"anchor":"y2","domain":[0.685,1.0]},"yaxis2":{"anchor":"x2","domain":[0.0,1.0]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Mean fatalities per event by actor type","x":0.29250000000000004,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Lethality ratio (state ÷ non-state)","x":0.8425,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"title":{"text":"Lethality by country and actor type — South America (2018–2024)"},"height":500},                        {"responsive": true}                    )                };                            </script>        </div>
+</div>
+<figcaption>
+    Figure 7. Mean fatalities per event by country and actor type, with overall
+    lethality ratio (interactive &mdash; hover for exact values and event
+    counts). Countries sorted by total fatalities. Ecuador is the primary
+    spatial exception to the continental intensive/extensive pattern.
+</figcaption>
+
+
+<!-- ══ FINDINGS V: MECHANISM ════════════════════════════════════════════════ -->
+<h2><span>VII.</span> The Mechanism of State Intensity</h2>
+
+<p>
+    The final analytical question is not whether state actors kill more
+    intensively - that is established - but more so why this is the case. Event
+    and sub-event type breakdowns point to a structural answer; state
+    fatalities are concentrated in battles and armed clashes, overall organised,
+    often lengthy conflict between security forces and armed opponents that
+    expectedly produce higher death tolls<sup><a href="#fn12" id="ref12">12</a></sup>.
+    Non-state fatalities concentrate almost entirely in attacks - more targeted,
+    brief incidents against specific individuals (or in specific locations) that
+    tend to produce lower death tolls. Both actor types are engaged in
+    fundamentally different forms of conflict from one another, as opposed to
+    carrying out similar violence with simply different levels of force.
+</p>
+
+<p>
+    This distinction is reinforced by decomposing volume of sub-events for each
+    actor type (<em>see Figure 8</em>). Armed clashes dominate state
+    fatalities, accounting for approximately 2/3 of all deaths in state-based
+    events, with attacks accounting for the remaining third. For non-state actors,
+    the picture is even more concentrated - attacks represent an overwhelming
+    majority of fatalities, with armed clashes a minor secondary contributor.
+    State actors' access to organised combined-arms military operations (with the
+    logistical capacity/firepower said operations entail) explains the per-event
+    lethality advantage more than any other given factor.
+</p>
+
+<p>
+    It is worth noting that excessive force against protesters (a category that
+    might be expected to be more prominent given protest repression in Venezuela
+    and Bolivia during the period) does not appear as a primary driver of state
+    lethality in the sub-event data <sup><a href="#fn13" id="ref13">13</a></sup>.
+    State intensity, at least in the South American context of this dataset, is
+    certainly more armed conflict than civilian repression, meaning that
+    regional/international policy response to continental violence requires
+    proper understanding of non-state actors' role in state actors' activity.
+</p>
+
+<div class="chart-wrap">
+    <div>                            <div id="f34698bb-5e04-4145-af11-75a150e723f4" class="plotly-graph-div" style="height:420px; width:100%;"></div>            <script type="text/javascript">                                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("f34698bb-5e04-4145-af11-75a150e723f4")) {                    Plotly.newPlot(                        "f34698bb-5e04-4145-af11-75a150e723f4",                        [{"marker":{"color":"mediumblue"},"name":"State","opacity":0.85,"orientation":"h","x":[0.0,0.046,0.1,0.459,0.938,0.946],"y":["Strategic developments","Protests","Riots","Explosions\u002fRemote violence","Battles","Violence against civilians"],"type":"bar","xaxis":"x","yaxis":"y"},{"marker":{"color":"crimson"},"name":"Non-state","opacity":0.85,"orientation":"h","x":[0.0,0.001,0.081,0.328,1.322,1.0],"y":["Strategic developments","Protests","Riots","Explosions\u002fRemote violence","Battles","Violence against civilians"],"type":"bar","xaxis":"x","yaxis":"y"},{"marker":{"color":"mediumblue"},"name":"State sub-events","opacity":0.85,"orientation":"h","showlegend":false,"x":[27,34,46,105,119,185,273,288,15535,28170],"y":["Suicide bomb","Grenade","Sexual violence","Excessive force against protesters","Air\u002fdrone strike","Remote explosive\u002flandmine\u002fIED","Mob violence","Violent demonstration","Attack","Armed clash"],"type":"bar","xaxis":"x2","yaxis":"y2"},{"marker":{"color":"crimson"},"name":"Non-state sub-events","opacity":0.85,"orientation":"h","showlegend":false,"x":[0,6,36,88,103,161,163,380,1074,44735],"y":["Shelling\u002fartillery\u002fmissile attack","Air\u002fdrone strike","Grenade","Sexual violence","Armed clash","Excessive force against protesters","Remote explosive\u002flandmine\u002fIED","Violent demonstration","Mob violence","Attack"],"type":"bar","xaxis":"x3","yaxis":"y3"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.2888888888888889]},"yaxis":{"anchor":"x","domain":[0.0,1.0]},"xaxis2":{"anchor":"y2","domain":[0.35555555555555557,0.6444444444444445]},"yaxis2":{"anchor":"x2","domain":[0.0,1.0]},"xaxis3":{"anchor":"y3","domain":[0.7111111111111111,1.0]},"yaxis3":{"anchor":"x3","domain":[0.0,1.0]},"annotations":[{"font":{"size":16},"showarrow":false,"text":"Mean fatalities per event by type & actor","x":0.14444444444444446,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Top sub-events: state actors","x":0.5,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"},{"font":{"size":16},"showarrow":false,"text":"Top sub-events: non-state actors","x":0.8555555555555556,"xanchor":"center","xref":"paper","y":1.0,"yanchor":"bottom","yref":"paper"}],"legend":{"orientation":"h","y":1.1},"title":{"text":"Event type lethality by actor — South America (2018–2024)"},"barmode":"group","height":420},                        {"responsive": true}                    )                };                            </script>        </div>
+</div>
+<figcaption>
+    Figure 8. Mean fatalities per event by event type and actor type (left),
+    top sub-event types by total fatalities for state actors (centre) and
+    non-state actors (right) (interactive). Armed clashes account for the
+    majority of state lethality; non-state fatalities are concentrated almost
+    entirely in attacks.
+</figcaption>
+
+
+<!-- ══ CONCLUSION ═══════════════════════════════════════════════════════════ -->
+<h2><span>VIII.</span> Conclusion</h2>
+
+<p>
+    Evidence across the ACLED events recorded in South America between 2018 and
+    2024 indeed point to the consistent (& statistically robust) conclusion
+    throughout this report that state and non-state actors produce violence in
+    fundamentally different characters. State actors kill intensively, concentrating
+    fatalities into a smaller number of organised, high-lethality operations.
+    Non-state actors kill extensively, generating a higher volume of incidents
+    at substantially lower per-event death tolls. This intensive/extensive distinction
+    holds across every year in the observed period, survives the exclusion of
+    extreme outlier events, and is confirmed as statistically significant by
+    non-parametric testing on both the full and robust datasets
+    <sup><a href="#fn14" id="ref14">14</a></sup>.
+</p>
+
+<p>
+    Spatial analysis contributes nuance, but does not undermine, this finding.
+    Venezuela's position at the extreme end of the state intensity spectrum
+    reflects specific domestic contexts of authoritarianism and state willingness
+    to deploy lethal force. Brazil's near-parity adds a dimension, highlighting
+    that the state lethality ratio may be evened if non-state actors are equally
+    organised and armed. Ecuador even entirely inverts the pattern, an anomaly
+    wherein criminal organisations exceed state forces in armament, and
+    consequently in lethality - the state is only more lethal due to material
+    advantage. Altogether these cases highlight the intensive/extensive dynamic
+    is not a fixed property of actor types abstractedly, but a product of specific
+    political-institutional contexts shaping what state and non-state actors are
+    capable of doing and willing to do to achieve it.
+</p>
+
+<p>
+    Mechanistic findings confirm this - dtate intensity in South America is driven
+    by armed clashes and organised military operations, not by civilian repression
+    or protest crackdowns that tend to dominate international coverage of violence
+    in the region. Frameworks designed to constrain disproportionate force in
+    protest do address a real issue, but target what is evidently a secondary driver
+    of state lethality. The primary driver (organised armed conflict between
+    government forces and non-state armed groups) requires solutions based in
+    ceasefire mechanisms and negotiation of armed groups' dearmament prior to
+    those focused on civilians.
+</p>
+
+<p>
+    Two limitations do bear restating as conditions on conclusions. One, that
+    actor classification methodology used here relies on keyword matching
+    against name fields, and two, that fatality figures represent a lower bound
+    subject to undercounting biases noted in Section II. A natural extension of
+    this analysis would re-run the intensive/extensive comparison using more
+    extensive actor coding, and would perhaps also find a wider-ranging dataset
+    covering prior to 2018. Further study may extrapolate the intensive/extensive
+    dynamic into regime type or analysis of the military industrial complex, and
+    test the deeper structure of the relationship between state lethality and
+    domestic political context<sup><a href="#fn15" id="ref15">15</a></sup>. The
+    present analysis establishes the pattern; future analysis ought to empiricise
+    it.
+</p>
+
+<hr>
+
+
+<!-- ══ FOOTNOTES ════════════════════════════════════════════════════════════ -->
+<div class="footnotes">
+    <h2>Notes</h2>
+    <ol>
+        <li id="fn1">
+            Bisca, P., Chau, V., Dudine, P., Espinoza, R.A., Fournier, J-M.,
+            Guérin, P. and Hansen, N-J.H. 2024. Violent Crime and Insecurity in
+            Latin America and the Caribbean - A Macroeconomic Perspective.
+            Departmental Papers 2024(009). doi: https://doi.org/10.5089/9798400288470.087.
+            <a href="#ref1" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn2">
+            ACLED. 2026. Knowledge Base. Available at: https://acleddata.com/conflict-data/knowledge-base
+            [Accessed: 28 April 2026].
+            <a href="#ref2" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn3">
+            ACLED. 2024. Overview of ACLED’s data enhancement projects and known
+            data limitations. ACLED Data. 18 October. Available at:
+            https://acleddata.com/methodology/overview-acleds-data-enhancement-projects-and-known-data-limitations
+            [Accessed: 28 April 2026].
+            <a href="#ref3" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn4">
+            ACLED. 2023. Fatalities. ACLED Data. 27 February. Available at:
+            https://acleddata.com/methodology/fatalities [Accessed: 28 April 2026].
+            <a href="#ref4" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn5">
+            Robustness threshold is defined as the 99th percentile of
+            fatalities per event across the full dataset. All principal lethality
+            comparisons rerun on dataset with events above this threshold
+            excluded.
+            <a href="#ref5" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn6">
+            Event counts refer to all ACLED-coded political violence and protest
+            events in South America excluding strategic developments.
+            <a href="#ref6" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn7">
+            On full dataset, the state/non-state lethality ratio (mean
+            fatalities per event) is 2.66. On the robust dataset with the top 1%
+            of events excluded, ratio is 2.52. Minimal difference of 0.14 confirms
+            the gap is not driven by extreme outlier events.
+            <a href="#ref7" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn8">
+            Mann-Whitney U test is a test for comparing two independent samples
+            that do not follow a normal distribution - test was run one-tailed
+            (H1: state actor events are more lethal than non-state actor events).
+            Results: full dataset U=6,290,184,597, p=0.000000; robust dataset
+            U=6,111,510,916, p=0.000000.
+            <a href="#ref8" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn9">
+            Spike years are 2021 & 2022 on basis of lethality ratio peaking in
+            said years, baseline years (2018, 2020, 2022) are selected as years
+            of comparatively even lethality ratios.
+            <a href="#ref9" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn10">
+            OHCHR. 2025. Venezuela: Harsh repression and crimes against humanity
+            ongoing, Fact-Finding Mission says. United Nations Office of the High
+            Commissioner for Human Rights. 18 March. Available at:
+            https://www.ohchr.org/en/press-releases/2025/03/venezuela-harsh-repression-and-crimes-against-humanity-ongoing-fact-finding
+            [Accessed: 28 April 2026].
+            <a href="#ref10" class="backlink">&#8617;</a>
+        </li>
+         <li id="fn11">
+            Polga-Hecimovich, J. 2024. Ecuador: Organized crime threatens the
+            state and economy. Geopolitical Intelligence Services Reports. 22
+            April. Available at: https://www.gisreportsonline.com/r/ecuador-crime-state/
+            [Accessed: 28 April 2026].
+            <a href="#ref11" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn12">
+            ACLED. [no date]. ACLED Codebook. Available at:
+            https://acleddata.com/methodology/acled-codebook [Accessed: 28 April
+            2026]. Battles are defined as violent interactions between two
+            organised armed groups; attacks are defined as violent acts by one
+            group against another that does not actively engage in return.
+            <a href="#ref12" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn13">
+            Finding should be interpreted in light of actor classification
+            methodology noted in Section II (i.e. events involving state-affiliated
+            militias operating alongside security forces may be miscategorised
+            as 'Other', or 'Non-state' if only labelled militia).
+            <a href="#ref13" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn14">
+            All findings refer to the 2018-2024 period covered by report. Original
+            intended analytical window was 2005-2025; narrower coverage reflects
+            limitation with ACLED South American data at data retrieval stage.
+            <a href="#ref14" class="backlink">&#8617;</a>
+        </li>
+        <li id="fn15">
+            i.e. using Varieties of Democracy Project (V-DEM) indicies.
+            <a href="#ref15" class="backlink">&#8617;</a>
+    </ol>
+</div>
+
+
+</div>
+</body>
+</html>
