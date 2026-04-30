@@ -8,7 +8,7 @@
 
 South America is consistently among the most politically violent regions in the world, yet standards measure of conflict severity, i.e. aggregate fatality counts, only distinguish between the volume of violence, not the character of it. The project uses ACLED event data to ask whether/how state and non-state actors in South America kill differently, exploring the difference between state actors producing fewer but deadlier events (*intensive* violence) and non-state actors producing greater but less deadly events (*extensive* violence). Analysis examines this distinction temporally, spatially, and mechanically across 209,317 recorded events between 2018 and 2024.
 
-The interactive report is available at: **[your-username.github.io/your-repo](https://your-username.github.io/your-repo)**
+The interactive report is available at: **[https://lewishall05-pixel.github.io/project_folder/](https://lewishall05-pixel.github.io/project_folder/)**
 
 ---
 
