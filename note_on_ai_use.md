@@ -44,5 +44,6 @@ Claude.ai was used to first produce a base structure of code - a code template w
 
 Gemini Assistant's 'explain code' function was also used prior to locally downloading the .py to identify any outstanding formatting errors (without changing them before the author could check, as the 'transform code' option does), as well as explaining the process of locally running the file into a HTML page.
 
+---
 
 Beyond the above listed, the only other use of AI was to produce a template for formatting of the README file, with placeholder tabs produced in the same way as the Python Script, and then replaced with the author's writing after pasting into the repository. Otherwise, all markdown cells and written analysis are independently written by the author, and the initial scope and analytical direction of the data downloaded (South America and focus on state violence) was organically thought of.
